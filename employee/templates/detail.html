@@ -19,9 +19,9 @@
       </tr>
     
       <tr v-for="item in employees">
-        <td>{item.id}</td>
-        <td>{item.name}</td>
-        <td>{item.address}</td>
+        <td>{item.pk}</td>
+        <td>{item.fields.name}</td>
+        <td>{item.fields.address}</td>
         
       </tr>
     </div> 
@@ -38,20 +38,10 @@
    el:'#root',
    data:
    {
-    
-     employees:[
-     {% for employee in employees %}
-     {
-      id:{{employee.id}},
-      name:"{{employee.name}}",
-      address:"{{employee.address}}"
-     },
-     {% endfor %}
-    ],
+    employees:{{employee|safe}},
     hreflink:"{% url 'EmployeeView1' %}",
     restlink:"{% url 'RestView' %}"
-
-    }
+   }
   }); 
 </script>
 </body>
