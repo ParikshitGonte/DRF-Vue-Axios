@@ -21,7 +21,7 @@
                   {% csrf_token %}
                   <div class="row">
                     <div class="col-md-6">
-                      <input type="text" class="form-control" placeholder="Search" v-model="search" autocomplete="off" autofocus> <br/>
+                      <input type="text" class="form-control" placeholder="Enter City" v-model="search" autocomplete="off" autofocus> <br/>
                     </div>
                   </div>
                 </form>
@@ -34,9 +34,9 @@
                         </tr>
                         
                         <tr v-for="custom in filteredemployees">  
-                                <td>{custom.id}</td>
-                                <td>{custom.name}</td>
-                                <td>{custom.city}</td>
+                                <td>{custom.pk}</td>
+                                <td>{custom.fields.name}</td>
+                                <td>{custom.fields.address}</td>
                         </tr>
                       </table>
     
@@ -49,26 +49,13 @@
         el:'#root',
         data:
         {
-        employee_data:[
-        {% for employee in employees %}
-        {
-            id:"{{employee.id}}",
-            name :"{{employee.name}}",
-            city:"{{employee.address}}",
-            
-        },
-       {% endfor %}
-        ],
+        employee_data:{{employee|safe}},
         search:"",
         },
         computed:{
             filteredemployees()
             {
-                const filter=new RegExp(this.search,'i')
-                return this.employee_data.filter((item)=>
-                {
-                    return item.city.match(filter) 
-                });
+              return this.employee_data.filter(item=>item.fields.address.toLowerCase().includes(this.search.toLowerCase()))
             }
         }
         }); 
